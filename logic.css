@@ -1,0 +1,77 @@
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+td.square {
+  width: 36px;
+  height: 36px;
+}
+
+.hover {
+  background: #F90;
+}
+
+.red {
+  background: #F00;
+}
+
+.green {
+  background: #0F0;
+}
+
+.solid-right {
+  border-right: 2px solid #000;
+}
+
+.solid-bottom {
+  border-bottom: 2px solid #000;
+}
+
+.titles-size {
+  height: 150px;
+  width: 150px;
+}
+
+.titles {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.top-title {
+  vertical-align: bottom;
+  padding-bottom: 5px;
+}
+
+.top-title input {
+  position: absolute;
+  margin-bottom: 4px;
+  margin-left: 8px;
+  -moz-transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform-origin: 0pt 0pt;
+  -webkit-transform-origin: 0pt 0pt;
+  width: 140px;
+}
+
+.left-title input {
+  text-align: right;
+}
+
+#info {
+  vertical-align: middle;
+  text-align: center;
+}
+
+#puzzle {
+  float: left;
+}
+
+#answers {
+  float: right;
+  border: solid 2px #000;
+}
+
+#answers th {
+  border-bottom: solid 2px #000;
+}
