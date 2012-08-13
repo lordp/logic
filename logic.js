@@ -41,6 +41,7 @@ $(function () {
     title_map.push(['top_2_' + j, 'left_1_' + j]);
   }
 
+  // map for the titles so you only need to enter them once
   $.each(title_map, function(index, map) {
     $('#title_' + map[0]).live('keyup', function() {
       $('#title_' + map[1]).val($(this).val());
@@ -55,6 +56,7 @@ $(function () {
     var squares = $('#squares').val();
     var firstrow = $('#firstrow').val();
 
+    // build up the 'answers' table
     $('#answers').empty();
     var head = $('<thead>');
     var headrow = $('<tr>');
@@ -78,9 +80,10 @@ $(function () {
     }
     body.appendTo('#answers');
 
-
+    // empty the puzzle
     $('#puzzle').empty();
 
+    // special first row
     var row = $('<tr>');
     $('<td>').addClass('solid-right').addClass('solid-bottom').addClass('titles-size').attr({ "id": "info"}).appendTo(row);
     for (var gridrowsacross = 0; gridrowsacross < firstrow; gridrowsacross++) {
