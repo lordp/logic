@@ -1,3 +1,48 @@
+var gnStartTime = 0;
+var gbMove = false;
+var gbStillTouching = false;
+
+function checkTapHold(nID, square) {
+  if ((!gbMove) && (gbStillTouching) && (gnStartTime == nID && $(square))) {
+    gnStartTime = 0;
+    gbMove = false;
+    setAnswer($(square));
+  }
+}
+
+function setAnswer(square) {
+  square.removeClass('red').toggleClass('green');
+  var coords = square.attr("id").match(coords_regex);
+
+  // fill in or clear the answer
+  if (coords[2] == 0) {
+    var top_title = $('#title_top_' + coords[1] + '_' + coords[3]).val();
+    var left_title = $('#title_left_' + coords[2] + '_' + coords[4]).val();
+
+    if (square.hasClass('green')) {
+      $('#answer_' + coords[2] + '_' + coords[4]).val(left_title);
+      $('#answer_' + (parseInt(coords[1]) + 1) + '_' + coords[4]).val(top_title);
+    }
+    else {
+      $('#answer_' + coords[2] + '_' + coords[4]).val('');
+      $('#answer_' + (parseInt(coords[1]) + 1) + '_' + coords[4]).val('');
+    }
+  }
+
+  // fill in the rows/columns with red
+  var squares = $('#squares').val();
+  for (var i = 0; i < squares; i++) {
+    var square_across = $('#grid_' + coords[1] + '_' + coords[2] + '_squares_' + i + '_' + coords[4]);
+    if (!square_across.hasClass('green')) {
+      square_across.addClass('red');
+    }
+    var square_down = $('#grid_' + coords[1] + '_' + coords[2] + '_squares_' + coords[3] + '_' + i);
+    if (!square_down.hasClass('green')) {
+      square_down.addClass('red');
+    }
+  }
+}
+
 var coords_regex = /grid_([0-9])_([0-9])_squares_([0-9])_([0-9])/;
 $('.square').live('mouseover',function () {
   $(this).addClass('hover');
@@ -10,40 +55,19 @@ $('.square').live('mouseover',function () {
   $('#info').empty();
 }).live('click', function (e) {
   if (e.ctrlKey) {
-    $(this).removeClass('red').toggleClass('green');
-    var coords = $(this).attr("id").match(coords_regex);
-
-    // fill in or clear the answer
-    if (coords[2] == 0) {
-      var top_title = $('#title_top_' + coords[1] + '_' + coords[3]).val();
-      var left_title = $('#title_left_' + coords[2] + '_' + coords[4]).val();
-
-      if ($(this).hasClass('green')) {
-        $('#answer_' + coords[2] + '_' + coords[4]).val(left_title);
-        $('#answer_' + (parseInt(coords[1]) + 1) + '_' + coords[4]).val(top_title);
-      }
-      else {
-        $('#answer_' + coords[2] + '_' + coords[4]).val('');
-        $('#answer_' + (parseInt(coords[1]) + 1) + '_' + coords[4]).val('');
-      }
-    }
-
-    // fill in the rows/columns with red
-    var squares = $('#squares').val();
-    for (var i = 0; i < squares; i++) {
-      var square_across = $('#grid_' + coords[1] + '_' + coords[2] + '_squares_' + i + '_' + coords[4]);
-      if (!square_across.hasClass('green')) {
-        square_across.addClass('red');
-      }
-      var square_down = $('#grid_' + coords[1] + '_' + coords[2] + '_squares_' + coords[3] + '_' + i);
-      if (!square_down.hasClass('green')) {
-        square_down.addClass('red');
-      }
-    }
+    setAnswer($(this));
   }
   else {
     $(this).removeClass('green').toggleClass('red');
   }
+}).live('touchstart', function() {
+  gbStillTouching = true;
+  gnStartTime = Number(new Date());
+  setTimeout('checkTapHold(' + gnStartTime + ', ' + $(this).attr("id") + '); clearTimeout();', 1000);
+}).live('touchmove', function() {
+  gbMove = true;
+}).live('touchend', function() {
+  gbStillTouching = false;
 });
 
 $(function () {
