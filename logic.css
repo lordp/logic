@@ -64,11 +64,9 @@ td.square {
 }
 
 #puzzle {
-  float: left;
 }
 
 #answers {
-  float: right;
   border: solid 2px #000;
 }
 
